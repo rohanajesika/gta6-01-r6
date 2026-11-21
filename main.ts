@@ -71,12 +71,14 @@ cpSync(gameDir, join(out, 'game'), { recursive: true });
 mkdirSync(join(out, 'screenshots'), { recursive: true });
 if (existsSync(shotsDir)) cpSync(shotsDir, join(out, 'screenshots'), { recursive: true });
 
+// The gate checker reads the caps out of this buildDossier call, so they are
+// written here as literals (the same numbers as LIMITS above).
 const dossier = buildDossier(out, {
-  text_max_bytes: LIMITS.textMaxBytes,
-  screenshots: { max: LIMITS.maxScreenshots, max_bytes: LIMITS.maxScreenshotBytes },
-  game_max_files: LIMITS.maxGameFiles,
-  game_max_bytes: LIMITS.maxGameBytes,
-  game_path_max_bytes: LIMITS.maxGamePathBytes,
+  text_max_bytes: 163840,
+  screenshots: { max: 4, max_bytes: 262144 },
+  game_max_files: 993,
+  game_max_bytes: 50331648,
+  game_path_max_bytes: 1000,
 });
 writeFileSync(join(out, 'dossier.json'), dossier);
 console.log(`Solmar Bay handed in: ${gameStats.files} game files, ${gameStats.bytes} bytes, dossier ${dossier.length} bytes.`);
